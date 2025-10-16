@@ -1,15 +1,15 @@
 import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage.jsx";
-import LoginPage from "./pages/LoginPage.jsx";
-import SignUpPage from "./pages/SignUpPage.jsx";
+import LoginPage, { LoginAction } from "./pages/LoginPage.jsx";
+import SignUpPage, { signupAction } from "./pages/SignUpPage.jsx";
 import ProtectedTaskPage from "./pages/SignUpPage.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
-  { path: "login", element: <LoginPage /> },
-  { path: "signup", element: <SignUpPage /> },
-  { path: "Tasks", element: <ProtectedTaskPage /> },
+  { path: "login", element: <LoginPage />, action: LoginAction },
+  { path: "signup", element: <SignUpPage />, action: signupAction },
+  { path: "tasks", element: <ProtectedTaskPage /> },
 ]);
 
 function App() {

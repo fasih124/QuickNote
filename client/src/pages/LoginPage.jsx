@@ -1,6 +1,8 @@
-import { Form } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 
 export default function LoginPage() {
+  const data = useActionData();
+
   return (
     <>
       <h1 className="mb-4">Login Page</h1>
@@ -8,7 +10,7 @@ export default function LoginPage() {
         this is Login page which login existing user and genrate the jwt token
         for it.
       </p>
-      <Form className="items-center">
+      <Form method="post" className="items-center">
         <div className="text-center mb-2">
           <label htmlFor="email" className="pr-7">
             Email:{" "}
@@ -33,4 +35,19 @@ export default function LoginPage() {
       </Form>
     </>
   );
+}
+
+export async function LoginAction({ request }) {
+  const data = await request.formData();
+  const email = data.get("email");
+  const password = data.get("password");
+
+  if (email === "a@mail.com" && password === "123456") {
+    console.log(`email: ${email} and password: ${password}`);
+    redirect("/tasks");
+  } else {
+    console.log("incorrect credential");
+    console.log(`email: ${email} and password: ${password}`);
+    return { error: "Invalid email or password" };
+  }
 }
