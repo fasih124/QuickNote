@@ -3,13 +3,21 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage.jsx";
 import LoginPage, { LoginAction } from "./pages/LoginPage.jsx";
 import SignUpPage, { signupAction } from "./pages/SignUpPage.jsx";
-import ProtectedTaskPage from "./pages/SignUpPage.jsx";
+import ProtectedTaskPage from "./pages/ProtectedPage.jsx";
+import ProtectedTaskRoute from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   { path: "login", element: <LoginPage />, action: LoginAction },
   { path: "signup", element: <SignUpPage />, action: signupAction },
-  { path: "tasks", element: <ProtectedTaskPage /> },
+  {
+    path: "tasks",
+    element: (
+      <ProtectedTaskRoute>
+        <ProtectedTaskPage />
+      </ProtectedTaskRoute>
+    ),
+  },
 ]);
 
 function App() {

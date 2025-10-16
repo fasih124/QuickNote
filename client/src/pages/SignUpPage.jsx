@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Form, redirect, useActionData } from "react-router-dom";
+import { Form, Navigate, redirect, useActionData } from "react-router-dom";
 
 export default function SignUpPage() {
   const data = useActionData();
@@ -41,15 +41,23 @@ export async function signupAction({ request }) {
   const email = data.get("email");
   const password = data.get("password");
 
-  const response = axios.get("url/endpoint");
-  console.log(respose.data);
+  try {
+    const response = await axios.post(
+      "http://localhost:3000/api/users/register",
+      {
+        name: "Default User",
+        email,
+        password,
+      }
+    );
+    console.log(response.data);
+    return redirect("/login");
+  } catch (error) {
+    console.error("Signup failed:", error);
+    if (error.response && error.response.data && error.response.data.message) {
+      return { error: error.response.data.message };
+    }
 
-  if (email === "a@mail.com" && password === "123456") {
-    console.log(`email: ${email} and password: ${password}`);
-    redirect("login");
-  } else {
-    console.log("incorrect credential");
-    console.log(`email: ${email} and password: ${password}`);
-    return { error: "Invalid email or password" };
+    return { error: "Signup failed. Please try again." };
   }
 }
